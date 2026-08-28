@@ -1,0 +1,6 @@
+{
+  "name": "빛담건물썬팅",
+  "description": "프리미엄 건축용 단열·열차단·시선차단 필름 전문 시공 브랜드 빛담건물썬팅 공식 웹사이트. 고화질 시공 갤러리, 비포/애프터 비교, 네이버 블로그 최신 시공기 연동, 실시간 간편 견적 및 카카오톡 상담 예약.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
