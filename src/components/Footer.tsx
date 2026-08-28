@@ -116,9 +116,6 @@ export const Footer: React.FC<FooterProps> = ({
               >
                 {BRAND_INFO.phone}
               </a>
-              <div className="text-xs text-zinc-300">
-                직통: <strong className="text-white">{BRAND_INFO.directPhone}</strong>
-              </div>
               <div className="text-xs text-zinc-400 flex items-center gap-1.5 pt-1">
                 <Clock className="w-3.5 h-3.5 text-amber-500 shrink-0" />
                 <span>{BRAND_INFO.workingHours}</span>

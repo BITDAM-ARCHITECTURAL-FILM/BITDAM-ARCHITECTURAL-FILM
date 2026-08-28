@@ -4,7 +4,6 @@ import { FilmCatalogModal } from './FilmCatalogModal';
 import { 
   Sun, 
   Sparkles, 
-  Building2, 
   Thermometer, 
   ShieldCheck, 
   Play, 
@@ -17,9 +16,13 @@ import {
   Flame,
   Snowflake,
   Eye,
-  Sliders,
   ChevronRight,
-  TrendingDown
+  ZoomIn,
+  ArrowRight,
+  Activity,
+  Maximize2,
+  Gauge,
+  Cpu
 } from 'lucide-react';
 
 interface FilmProductSectionProps {
@@ -33,20 +36,37 @@ export const FilmProductSection: React.FC<FilmProductSectionProps> = ({ onSelect
   // Simulation State: 'applied' (빛담 필름 시공 후) vs 'unapplied' (일반 유리 미시공)
   const [isFilmApplied, setIsFilmApplied] = useState<boolean>(true);
   const [isAnimating, setIsAnimating] = useState<boolean>(true);
-  const [sunIntensity, setSunIntensity] = useState<number>(85); // %
-  const [activeRayFilter, setActiveRayFilter] = useState<'all' | 'infrared' | 'uv' | 'visible'>('all');
 
-  // Auto-pulse animation ticker
-  const [ticker, setTicker] = useState(0);
-  useEffect(() => {
-    let timer: any;
-    if (isAnimating) {
-      timer = setInterval(() => {
-        setTicker((t) => (t + 1) % 100);
-      }, 50);
-    }
-    return () => clearInterval(timer);
-  }, [isAnimating]);
+  // Dynamic Solar Energy Figures
+  // When Film Applied (반사 극대화): 반사 80%, 흡수 10%, 투과 10%
+  // When Unapplied (일반 유리): 반사 8%, 흡수 12%, 투과 80%
+  const currentMetrics = isFilmApplied
+    ? {
+        reflection: 80,
+        absorption: 10,
+        transmission: 10,
+        irr: '98%',
+        uvr: '99.9%',
+        tser: '78%',
+        roomTemp: '23.5℃ 쾌적',
+        glassTemp: '26.1℃ 안정',
+        thermalStress: '열파손 위험 0% (열축적 없음)',
+        statusBadge: '귀금속 멀티스퍼터 고반사 모드',
+        energySaving: '에어컨 소비전력 최대 30% 절감',
+      }
+    : {
+        reflection: 8,
+        absorption: 12,
+        transmission: 80,
+        irr: '0%',
+        uvr: '15%',
+        tser: '18%',
+        roomTemp: '42.8℃ 찜통',
+        glassTemp: '51.4℃ 과열',
+        thermalStress: '열파손 및 실내 복사열 방출 위험',
+        statusBadge: '일반 유리 미시공 (온열 관통)',
+        energySaving: '냉방비 누진세 과다 발생',
+      };
 
   const handleOpenCatalog = (category = 'all') => {
     setSelectedCatalogCategory(category);
@@ -55,7 +75,7 @@ export const FilmProductSection: React.FC<FilmProductSectionProps> = ({ onSelect
 
   return (
     <section id="products" className="py-24 bg-[#0A0A0C] relative text-zinc-200 overflow-hidden">
-      {/* Dynamic ambient lighting */}
+      {/* Dynamic ambient lighting glow */}
       <div 
         className={`absolute top-1/3 left-1/2 -translate-x-1/2 w-[900px] h-[450px] rounded-full blur-[160px] pointer-events-none transition-all duration-700 ${
           isFilmApplied ? 'bg-amber-500/10' : 'bg-red-600/10'
@@ -64,25 +84,22 @@ export const FilmProductSection: React.FC<FilmProductSectionProps> = ({ onSelect
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Top Header */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-12">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10">
           <div className="space-y-3 max-w-3xl">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-300 text-xs font-black">
-              <Building2 className="w-3.5 h-3.5 text-amber-400" />
-              <span>ARCHITECTURAL SOLAR REFLECTION • 대형 통창·창호 건물 일사열 반사 시뮬레이션</span>
+              <ZoomIn className="w-3.5 h-3.5 text-amber-400" />
+              <span>SINGLE PANE MACRO OPTICS • 창호 1장 확대 일사열 3대 거동(반사·흡수·투과) 분석</span>
             </div>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-              창호가 많은 건물에 필름을 시공했을 때, <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-amber-400 to-orange-400">
-                뜨거운 태양열과 자외선이 튕겨 나가는 순수 반사 원리
-              </span>
+              열차단필름의 강력한 열반사효과
             </h2>
             <p className="text-zinc-400 text-sm sm:text-base leading-relaxed">
-              유리면적이 넓은 아파트, 통창 오피스 빌딩, 커튼월 사옥에 빛담 정품 필름이 시공되면 
-              <strong> 유리가 열을 흡수하기 전 실외로 즉각 튕겨내어</strong> 건물 전체를 시원하고 쾌적하게 유지합니다.
+              좌측의 <strong>광학 수치 배분표와 정밀 스펙</strong>을 확인하시고, 
+              우측 영상에서 <strong>태양열의 80%가 실외로 즉시 튕겨 나가는 시뮬레이션</strong>을 관찰하세요.
             </p>
           </div>
 
-          {/* Primary Action Button: Open Full Lineup Modal in New Window */}
+          {/* Primary Action Button: Open Full Lineup Modal */}
           <button
             onClick={() => handleOpenCatalog('all')}
             className="px-6 py-4 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-black font-black text-xs sm:text-sm shadow-xl shadow-amber-500/25 flex items-center justify-center gap-2.5 cursor-pointer transition-all shrink-0 active:scale-95 group"
@@ -93,346 +110,468 @@ export const FilmProductSection: React.FC<FilmProductSectionProps> = ({ onSelect
           </button>
         </div>
 
-        {/* 🏢 Main Interactive Architectural Glass Building Solar Ray Reflection Simulator */}
+        {/* 🔬 Main Stage: Left Side [수치배분 & 스펙] vs Right Side [단면 시뮬레이션 영상] */}
         <div className="bg-[#121215] border-2 border-zinc-800 rounded-3xl overflow-hidden shadow-2xl relative">
-          {/* Top Simulation Control Bar */}
+          
+          {/* Top Control Header Bar */}
           <div className="bg-[#17171c] px-5 sm:px-8 py-4 border-b border-zinc-800 flex flex-wrap items-center justify-between gap-4">
-            {/* Live Status & Mode Toggle */}
             <div className="flex items-center gap-3">
-              <span className="text-xs font-bold text-zinc-400 hidden sm:inline">시뮬레이션 모드:</span>
+              <div className="flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse" />
+                <span className="text-xs font-black text-white uppercase tracking-wider">
+                  창호 1장 확대 단면 광학 시험기 (10X MACRO SIMULATOR)
+                </span>
+              </div>
+              <span className="text-[11px] text-zinc-500 font-mono hidden md:inline">
+                | SOLAR RADIATION ENERGY CONSERVATION (반사 80% 극대화)
+              </span>
+            </div>
+
+            {/* Mode Switcher: Before vs After */}
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-bold text-zinc-400 hidden sm:inline">시공 비교:</span>
               <div className="inline-flex p-1 bg-black/60 rounded-xl border border-white/10">
                 <button
                   onClick={() => setIsFilmApplied(false)}
-                  className={`px-4 py-1.5 rounded-lg text-xs font-black transition-all cursor-pointer ${
+                  className={`px-3.5 py-1.5 rounded-lg text-xs font-black transition-all cursor-pointer ${
                     !isFilmApplied
                       ? 'bg-red-500 text-white shadow-md shadow-red-500/30'
                       : 'text-zinc-400 hover:text-white'
                   }`}
                 >
-                  미시공 일반유리 (온열투과)
+                  일반유리 (투과 80% 찜통)
                 </button>
                 <button
                   onClick={() => setIsFilmApplied(true)}
-                  className={`px-4 py-1.5 rounded-lg text-xs font-black transition-all cursor-pointer flex items-center gap-1.5 ${
+                  className={`px-3.5 py-1.5 rounded-lg text-xs font-black transition-all cursor-pointer flex items-center gap-1.5 ${
                     isFilmApplied
                       ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-black shadow-md shadow-amber-500/30'
                       : 'text-zinc-400 hover:text-white'
                   }`}
                 >
                   <Sparkles className="w-3.5 h-3.5 fill-black" />
-                  <span>빛담 정품필름 시공 (열선반사)</span>
+                  <span>빛담 필름 (반사 80% 극대화)</span>
                 </button>
               </div>
-            </div>
-
-            {/* Ray Spectrum Filter Tabs */}
-            <div className="flex items-center gap-1.5">
-              <span className="text-[11px] text-zinc-500 font-medium hidden md:inline mr-1">광선 제어:</span>
-              {[
-                { id: 'all', label: '전체 태양광 (통합)' },
-                { id: 'infrared', label: '적외선(열선 98% 반사)' },
-                { id: 'uv', label: '자외선(UV 99.9% 차단)' },
-                { id: 'visible', label: '가시광선(자연채광)' },
-              ].map((tab) => (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveRayFilter(tab.id as any)}
-                  className={`px-2.5 py-1 rounded-lg text-[11px] font-bold transition-all cursor-pointer ${
-                    activeRayFilter === tab.id
-                      ? 'bg-zinc-700 text-amber-300 border border-amber-500/40'
-                      : 'bg-zinc-800/60 text-zinc-400 hover:text-zinc-200'
-                  }`}
-                >
-                  {tab.label}
-                </button>
-              ))}
 
               <button
                 onClick={() => setIsAnimating(!isAnimating)}
-                className="p-1.5 ml-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 transition-colors cursor-pointer"
-                title={isAnimating ? '모션 일시정지' : '모션 재생'}
+                className="p-2 ml-1 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 transition-colors cursor-pointer"
+                title={isAnimating ? '광선 모션 일시정지' : '광선 모션 재생'}
               >
-                {isAnimating ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5 text-emerald-400" />}
+                {isAnimating ? <Pause className="w-3.5 h-3.5 text-amber-400" /> : <Play className="w-3.5 h-3.5 text-emerald-400" />}
               </button>
             </div>
           </div>
 
-          {/* 📽️ Simulation Graphic Stage (Sun -> Solar Ray Trajectory -> Multi-Window Building Facade -> Reflection Bounce) */}
-          <div className="p-6 sm:p-10 relative bg-[#09090b] overflow-hidden min-h-[460px] flex flex-col justify-between">
-            {/* Background grid markings */}
-            <div className="absolute inset-0 bg-[linear-gradient(to_right,#1f29370f_1px,transparent_1px),linear-gradient(to_bottom,#1f29370f_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none" />
-
-            {/* Dynamic Solar Ray Canvas Illustration */}
-            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          {/* 📐 2-Column Split: [LEFT: 수치배분 & 스펙 (6 cols)] + [RIGHT: 단면 시뮬레이션 영상 (6 cols)] */}
+          <div className="p-5 sm:p-8 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start bg-[#08080a]">
+            
+            {/* ⬅️ LEFT COLUMN: 수치 배분 & 정밀 스펙 패널 (6/12) */}
+            <div className="lg:col-span-6 space-y-4">
               
-              {/* 1. Left Source: Intense Sun (강렬한 태양 광원) */}
-              <div className="lg:col-span-3 flex flex-col items-center justify-center text-center space-y-3">
-                <div className="relative">
-                  <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-tr from-amber-500 via-orange-500 to-yellow-300 flex items-center justify-center shadow-[0_0_60px_rgba(245,158,11,0.6)] animate-pulse">
-                    <Sun className="w-10 h-10 sm:w-12 sm:h-12 text-white" />
+              {/* 1. 수치 배분 헤더 카드 */}
+              <div className="bg-[#151519] border border-white/10 p-5 rounded-2xl space-y-4 shadow-xl">
+                <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
+                  <div className="flex items-center gap-2">
+                    <div className="p-1.5 rounded-lg bg-amber-500/10 text-amber-400">
+                      <Activity className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <h3 className="text-sm font-black text-white">
+                        태양열 광학 3대 거동 수치 배분표
+                      </h3>
+                      <span className="text-[10px] text-zinc-400 font-mono">
+                        입사 태양열 100% (1,000 W/㎡) = 반사 + 흡수 + 투과
+                      </span>
+                    </div>
                   </div>
-                  {/* Glowing corona rings */}
-                  <div className="absolute -inset-3 rounded-full border border-amber-500/30 animate-ping pointer-events-none" />
-                  <div className="absolute -inset-6 rounded-full border border-orange-500/15 pointer-events-none" />
+                  <span className={`text-[11px] font-black px-2.5 py-1 rounded-full border ${
+                    isFilmApplied 
+                      ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
+                      : 'bg-red-500/20 text-red-300 border-red-500/40'
+                  }`}>
+                    {currentMetrics.statusBadge}
+                  </span>
                 </div>
 
-                <div>
-                  <h4 className="text-sm font-black text-white">직사 일사광선 방출</h4>
-                  <p className="text-[11px] text-zinc-400 font-mono mt-0.5">
-                    적외선(열) 53% • 가시광선 44% • 자외선 3%
-                  </p>
-                  <span className="inline-block mt-2 px-2.5 py-0.5 rounded-full bg-orange-500/20 text-orange-300 text-[10px] font-bold border border-orange-500/30">
-                    일사 에너지: 1,000 W/㎡
-                  </span>
+                {/* 3대 수치 배분 게이지 (반사 80% 대폭 강조) */}
+                <div className="space-y-3">
+                  
+                  {/* [1] 태양열 반사율 (Reflection 80%) */}
+                  <div className={`p-3.5 rounded-xl border transition-all ${
+                    isFilmApplied 
+                      ? 'bg-amber-500/15 border-amber-500/50 shadow-lg shadow-amber-500/10' 
+                      : 'bg-zinc-900/90 border-zinc-800'
+                  }`}>
+                    <div className="flex items-center justify-between text-xs font-bold mb-1.5">
+                      <span className="flex items-center gap-1.5 text-white">
+                        <Flame className="w-4 h-4 text-amber-400" />
+                        <span>태양열 반사율 (Solar Reflection)</span>
+                        {isFilmApplied && (
+                          <span className="text-[10px] font-extrabold px-1.5 py-0.5 rounded bg-amber-500 text-black">
+                            고반사 극대화
+                          </span>
+                        )}
+                      </span>
+                      <strong className="text-xl font-black text-amber-400">
+                        {currentMetrics.reflection}%
+                      </strong>
+                    </div>
+                    <div className="w-full h-2.5 bg-black/60 rounded-full overflow-hidden p-0.5 border border-white/5">
+                      <div 
+                        className="h-full bg-gradient-to-r from-amber-400 via-yellow-300 to-orange-500 rounded-full transition-all duration-700 shadow-[0_0_12px_rgba(245,158,11,0.8)]"
+                        style={{ width: `${currentMetrics.reflection}%` }}
+                      />
+                    </div>
+                    <div className="flex items-center justify-between text-[10px] text-zinc-400 mt-1.5">
+                      <span>{isFilmApplied ? '★ 귀금속 스퍼터층이 실외로 즉시 튕겨냄 (열축적 0)' : '일반 유리의 미약한 자연반사'}</span>
+                      <span className="font-mono font-bold text-amber-300">{currentMetrics.reflection * 10} W/㎡ 반사</span>
+                    </div>
+                  </div>
+
+                  {/* [2] 태양열 흡수율 (Absorption 10%) */}
+                  <div className="p-3.5 rounded-xl bg-zinc-900/90 border border-zinc-800">
+                    <div className="flex items-center justify-between text-xs font-bold mb-1.5">
+                      <span className="flex items-center gap-1.5 text-purple-300">
+                        <Layers className="w-4 h-4 text-purple-400" />
+                        <span>태양열 흡수율 (Solar Absorption)</span>
+                      </span>
+                      <strong className="text-lg font-black text-purple-400">
+                        {currentMetrics.absorption}%
+                      </strong>
+                    </div>
+                    <div className="w-full h-2 bg-black/60 rounded-full overflow-hidden p-0.5 border border-white/5">
+                      <div 
+                        className="h-full bg-purple-500 rounded-full transition-all duration-700"
+                        style={{ width: `${currentMetrics.absorption}%` }}
+                      />
+                    </div>
+                    <div className="flex items-center justify-between text-[10px] text-zinc-400 mt-1.5">
+                      <span>{isFilmApplied ? '유리 열축적이 없어 열파손(크랙) 위험 원천 차단' : '유리가 열을 흡수하여 실내로 2차 복사열 방출'}</span>
+                      <span className="font-mono text-zinc-500">{currentMetrics.absorption * 10} W/㎡ 흡수</span>
+                    </div>
+                  </div>
+
+                  {/* [3] 태양열 투과율 (Transmission 10%) */}
+                  <div className={`p-3.5 rounded-xl border transition-all ${
+                    !isFilmApplied 
+                      ? 'bg-red-500/15 border-red-500/40' 
+                      : 'bg-zinc-900/90 border-zinc-800'
+                  }`}>
+                    <div className="flex items-center justify-between text-xs font-bold mb-1.5">
+                      <span className={`flex items-center gap-1.5 ${isFilmApplied ? 'text-sky-300' : 'text-red-300'}`}>
+                        <Eye className="w-4 h-4 text-sky-400" />
+                        <span>자연광/열선 투과율 (Solar Transmission)</span>
+                      </span>
+                      <strong className={`text-lg font-black ${isFilmApplied ? 'text-sky-400' : 'text-red-400'}`}>
+                        {currentMetrics.transmission}%
+                      </strong>
+                    </div>
+                    <div className="w-full h-2 bg-black/60 rounded-full overflow-hidden p-0.5 border border-white/5">
+                      <div 
+                        className={`h-full rounded-full transition-all duration-700 ${
+                          isFilmApplied ? 'bg-sky-400' : 'bg-red-500'
+                        }`}
+                        style={{ width: `${currentMetrics.transmission}%` }}
+                      />
+                    </div>
+                    <div className="flex items-center justify-between text-[10px] text-zinc-400 mt-1.5">
+                      <span>{isFilmApplied ? '눈부심을 억제한 은은한 자연 채광 & 선명한 조망' : '⚠️ 뜨거운 태양 복사열이 실내로 80% 그대로 쏟아짐'}</span>
+                      <span className="font-mono text-zinc-500">{currentMetrics.transmission * 10} W/㎡ 투과</span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              {/* 2. Center: Ray Tracing Trajectory & Reflection Physics SVG */}
-              <div className="lg:col-span-4 relative flex items-center justify-center min-h-[220px]">
-                <svg className="w-full h-56 overflow-visible" viewBox="0 0 300 200">
+              {/* 2. 핵심 광학 스펙 & 실내 환경 지표 그리드 (6개 타일) */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+                <div className="bg-[#151519] p-3 rounded-xl border border-zinc-800 text-center">
+                  <span className="text-[10px] text-zinc-400 block font-medium">적외선(열차단) 차단율</span>
+                  <strong className={`text-sm font-black ${isFilmApplied ? 'text-amber-400' : 'text-zinc-500'}`}>
+                    IRR {currentMetrics.irr}
+                  </strong>
+                  <span className="text-[9px] text-zinc-500 block mt-0.5">열선 원천 반사</span>
+                </div>
+
+                <div className="bg-[#151519] p-3 rounded-xl border border-zinc-800 text-center">
+                  <span className="text-[10px] text-zinc-400 block font-medium">자외선 차단율</span>
+                  <strong className={`text-sm font-black ${isFilmApplied ? 'text-sky-400' : 'text-zinc-500'}`}>
+                    UV {currentMetrics.uvr}
+                  </strong>
+                  <span className="text-[9px] text-zinc-500 block mt-0.5">가구·마루 변색 방지</span>
+                </div>
+
+                <div className="bg-[#151519] p-3 rounded-xl border border-zinc-800 text-center">
+                  <span className="text-[10px] text-zinc-400 block font-medium">총태양에너지차단율</span>
+                  <strong className={`text-sm font-black ${isFilmApplied ? 'text-amber-300' : 'text-zinc-500'}`}>
+                    TSER {currentMetrics.tser}
+                  </strong>
+                  <span className="text-[9px] text-zinc-500 block mt-0.5">국제 표준 기준</span>
+                </div>
+
+                <div className="bg-[#151519] p-3 rounded-xl border border-zinc-800 text-center">
+                  <span className="text-[10px] text-zinc-400 block font-medium">실내 체감 온도</span>
+                  <strong className={`text-sm font-black ${isFilmApplied ? 'text-emerald-400' : 'text-red-400'}`}>
+                    {currentMetrics.roomTemp}
+                  </strong>
+                  <span className="text-[9px] text-zinc-500 block mt-0.5">{isFilmApplied ? '미시공 대비 -19.3℃' : '찜통 온실 효과'}</span>
+                </div>
+
+                <div className="bg-[#151519] p-3 rounded-xl border border-zinc-800 text-center">
+                  <span className="text-[10px] text-zinc-400 block font-medium">유리 표면 온도</span>
+                  <strong className={`text-sm font-black ${isFilmApplied ? 'text-emerald-400' : 'text-red-400'}`}>
+                    {currentMetrics.glassTemp}
+                  </strong>
+                  <span className="text-[9px] text-zinc-500 block mt-0.5">{isFilmApplied ? '열파손 위험 0%' : '유리 표면 과열'}</span>
+                </div>
+
+                <div className="bg-[#151519] p-3 rounded-xl border border-zinc-800 text-center">
+                  <span className="text-[10px] text-zinc-400 block font-medium">에너지 절감 효과</span>
+                  <strong className={`text-sm font-black ${isFilmApplied ? 'text-sky-400' : 'text-red-400'}`}>
+                    {isFilmApplied ? '최대 30% 절감' : '누진세 과다'}
+                  </strong>
+                  <span className="text-[9px] text-zinc-500 block mt-0.5">냉난방비 대폭 절약</span>
+                </div>
+              </div>
+            </div>
+
+            {/* ➡️ RIGHT COLUMN: 창호 1장 확대 단면 시뮬레이션 영상/캔버스 (6/12) */}
+            <div className="lg:col-span-6 bg-[#131317] border border-white/10 rounded-2xl p-4 sm:p-5 relative overflow-hidden flex flex-col justify-between shadow-xl">
+              
+              {/* Simulation Header Badge */}
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+                  <span className="text-xs font-black text-zinc-200">
+                    광학 단면 영상 시뮬레이터 (10X MACRO)
+                  </span>
+                </div>
+                <span className="text-[10px] font-mono text-zinc-400 bg-black/60 px-2 py-0.5 rounded border border-white/5">
+                  입사: 1,000 W/㎡
+                </span>
+              </div>
+
+              {/* 📽️ Compact SVG Ray Tracing Simulation Canvas */}
+              <div className="relative w-full aspect-[4/3] sm:aspect-[16/11] flex items-center justify-center bg-[#070709] rounded-xl border border-zinc-800/80 overflow-hidden p-2">
+                
+                {/* Background Crosshair & Grid */}
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
+
+                <svg className="w-full h-full overflow-visible" viewBox="0 0 460 300">
                   <defs>
-                    {/* Linear Gradient for Incident Solar Heat Ray */}
-                    <linearGradient id="incidentHeatRay" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="#f59e0b" stopOpacity="0.9" />
-                      <stop offset="100%" stopColor="#ef4444" stopOpacity="1" />
+                    {/* Incoming Ray Gradient */}
+                    <linearGradient id="inRayCompact" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor="#f59e0b" />
+                      <stop offset="100%" stopColor="#ef4444" />
                     </linearGradient>
 
-                    {/* Gradient for Reflected Ray (빛담 필름에 튕겨 나가는 반사광) */}
-                    <linearGradient id="reflectedRay" x1="0%" y1="100%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="#fbbf24" stopOpacity="1" />
+                    {/* Massive High-Power Reflected Beam (80% 반사) */}
+                    <linearGradient id="reflectRayCompact" x1="0%" y1="100%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor="#fbbf24" />
+                      <stop offset="100%" stopColor="#f59e0b" />
+                    </linearGradient>
+
+                    {/* Absorption Heat Gradient */}
+                    <linearGradient id="absorbRayCompact" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stopColor="#a855f7" stopOpacity="0.9" />
+                      <stop offset="100%" stopColor="#7c3aed" stopOpacity="0.2" />
+                    </linearGradient>
+
+                    {/* Transmission Ray Gradient */}
+                    <linearGradient id="transRayCompact" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor="#38bdf8" />
+                      <stop offset="100%" stopColor="#0284c7" />
+                    </linearGradient>
+
+                    {/* Glass Body Texture */}
+                    <linearGradient id="glassBodyCompact" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.2" />
+                      <stop offset="50%" stopColor="#0f172a" stopOpacity="0.8" />
                       <stop offset="100%" stopColor="#38bdf8" stopOpacity="0.2" />
                     </linearGradient>
 
-                    {/* Gradient for Penetrated Ray (미시공 시 실내 관통광) */}
-                    <linearGradient id="penetratedRay" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="#ef4444" stopOpacity="1" />
-                      <stop offset="100%" stopColor="#b91c1c" stopOpacity="0.8" />
-                    </linearGradient>
-
-                    {/* Soft Filtered Visible Light (필름 시공 후 유입되는 은은한 채광) */}
-                    <linearGradient id="softLightRay" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.6" />
-                      <stop offset="100%" stopColor="#67e8f9" stopOpacity="0.3" />
+                    {/* Multi-Sputter Nano Metal Coating */}
+                    <linearGradient id="nanoSputterFilmCompact" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor="#f59e0b" />
+                      <stop offset="50%" stopColor="#fef08a" />
+                      <stop offset="100%" stopColor="#ea580c" />
                     </linearGradient>
                   </defs>
 
-                  {/* Incoming Solar Rays (3 Multi-Trajectories targeting windows) */}
-                  <g className="animate-pulse">
-                    <path
-                      d="M 10 50 L 220 70"
-                      stroke="url(#incidentHeatRay)"
-                      strokeWidth={activeRayFilter === 'infrared' || activeRayFilter === 'all' ? 4 : 1.5}
-                      strokeDasharray="6 3"
-                    />
-                    <path
-                      d="M 10 100 L 220 100"
-                      stroke="url(#incidentHeatRay)"
-                      strokeWidth={activeRayFilter === 'uv' || activeRayFilter === 'all' ? 4.5 : 1.5}
-                      strokeDasharray="8 4"
-                    />
-                    <path
-                      d="M 10 150 L 220 130"
-                      stroke="url(#incidentHeatRay)"
-                      strokeWidth={activeRayFilter === 'visible' || activeRayFilter === 'all' ? 3.5 : 1.5}
-                      strokeDasharray="5 2"
-                    />
+                  {/* Outdoor / Indoor Backdrop Shading */}
+                  <rect x="0" y="0" width="190" height="300" fill="transparent" />
+                  <rect x="250" y="0" width="210" height="300" fill="#000000" fillOpacity="0.5" rx="12" />
+
+                  {/* 1. Left Sun Emitter */}
+                  <g className="animate-pulse" transform="translate(15, 120)">
+                    <circle cx="20" cy="30" r="18" fill="url(#inRayCompact)" />
+                    <circle cx="20" cy="30" r="24" fill="none" stroke="#f59e0b" strokeWidth="1" strokeDasharray="3 3" />
                   </g>
 
-                  {/* Interactive Reflection / Penetration Physics */}
+                  {/* 2. Zoomed Single Pane Glass Pillar (창호 1장 확대 단면) */}
+                  <g>
+                    {/* Glass Pane */}
+                    <rect
+                      x="200"
+                      y="15"
+                      width="40"
+                      height="270"
+                      rx="6"
+                      fill="url(#glassBodyCompact)"
+                      stroke="#38bdf8"
+                      strokeWidth="1.5"
+                      strokeOpacity="0.7"
+                    />
+                    <text x="220" y="150" fill="#94a3b8" fontSize="9" fontWeight="bold" textAnchor="middle" transform="rotate(-90 220 150)">
+                      창호 유리 단면 (6mm)
+                    </text>
+
+                    {/* ✨ Film Coating Layer on Outdoor Side */}
+                    {isFilmApplied && (
+                      <g>
+                        <rect
+                          x="193"
+                          y="15"
+                          width="7"
+                          height="270"
+                          rx="3.5"
+                          fill="url(#nanoSputterFilmCompact)"
+                          stroke="#fbbf24"
+                          strokeWidth="1.2"
+                          className="animate-pulse"
+                        />
+                        <text x="184" y="150" fill="#fbbf24" fontSize="8" fontWeight="900" textAnchor="middle" transform="rotate(-90 184 150)">
+                          빛담 멀티스퍼터 필름
+                        </text>
+                      </g>
+                    )}
+                  </g>
+
+                  {/* 3. Incoming Solar Beam (입사광선 100%) */}
+                  <g className="animate-pulse">
+                    <path
+                      d="M 50 150 L 192 150"
+                      stroke="url(#inRayCompact)"
+                      strokeWidth="7"
+                      strokeLinecap="round"
+                    />
+                    <polygon points="186,144 198,150 186,156" fill="#ef4444" />
+                    <text x="110" y="138" fill="#f59e0b" fontSize="10" fontWeight="900" textAnchor="middle">
+                      입사 태양열 100%
+                    </text>
+                  </g>
+
+                  {/* 4. Active Energy Trajectories (반사 · 흡수 · 투과) */}
                   {isFilmApplied ? (
-                    // ✨ [FILM APPLIED] Bounces rays away back into sky
+                    // ✨ [FILM APPLIED] Hero 80% Reflection + 10% Absorption + 10% Transmission
                     <g>
-                      {/* Reflected Ray 1 */}
+                      {/* [A] SOLAR REFLECTION (반사 80% - HERO BOUNCE ARROW) */}
                       <path
-                        d="M 220 70 L 140 10"
-                        stroke="url(#reflectedRay)"
-                        strokeWidth="4"
+                        d="M 193 150 L 65 35"
+                        stroke="url(#reflectRayCompact)"
+                        strokeWidth="12"
                         strokeLinecap="round"
                         className="animate-pulse"
                       />
-                      <circle cx="140" cy="10" r="3" fill="#fbbf24" />
+                      <polygon points="58,30 76,32 68,46" fill="#fbbf24" />
+                      
+                      {/* Sparkle Impacts */}
+                      <circle cx="193" cy="150" r="7" fill="#fef08a" className="animate-ping" />
+                      <circle cx="193" cy="150" r="4" fill="#f59e0b" />
 
-                      {/* Reflected Ray 2 (Main Heat Rejection) */}
+                      <rect x="35" y="12" width="120" height="26" rx="6" fill="#18181b" stroke="#f59e0b" strokeWidth="1.2" />
+                      <text x="95" y="29" fill="#fbbf24" fontSize="11" fontWeight="900" textAnchor="middle">
+                        ⚡ 태양열 반사: 80%
+                      </text>
+
+                      {/* [B] SOLAR ABSORPTION (흡수 10%) */}
                       <path
-                        d="M 220 100 L 120 20"
-                        stroke="url(#reflectedRay)"
-                        strokeWidth="5"
+                        d="M 210 150 L 210 260"
+                        stroke="url(#absorbRayCompact)"
+                        strokeWidth="3.5"
+                        strokeDasharray="3 3"
                         strokeLinecap="round"
-                        className="animate-pulse"
                       />
-                      <circle cx="120" cy="20" r="4" fill="#f59e0b" />
+                      <rect x="155" y="265" width="110" height="22" rx="5" fill="#18181b" stroke="#a855f7" strokeWidth="1" />
+                      <text x="210" y="280" fill="#c084fc" fontSize="9" fontWeight="bold" textAnchor="middle">
+                        태양열 흡수: 10%
+                      </text>
 
-                      {/* Reflected Ray 3 */}
+                      {/* [C] SOLAR TRANSMISSION (투과 10%) */}
                       <path
-                        d="M 220 130 L 150 190"
-                        stroke="url(#reflectedRay)"
-                        strokeWidth="4"
+                        d="M 240 150 L 420 150"
+                        stroke="url(#transRayCompact)"
+                        strokeWidth="3.5"
                         strokeLinecap="round"
-                        className="animate-pulse"
                       />
-
-                      {/* Sparkle Impact Points on Building Glass Surface */}
-                      <circle cx="220" cy="70" r="5" fill="#fef08a" className="animate-ping" />
-                      <circle cx="220" cy="100" r="6" fill="#fef08a" className="animate-ping" />
-                      <circle cx="220" cy="130" r="5" fill="#fef08a" className="animate-ping" />
-
-                      {/* Gentle Soft Light passing through */}
+                      <polygon points="415,146 426,150 415,154" fill="#38bdf8" />
+                      <rect x="290" y="136" width="115" height="26" rx="6" fill="#18181b" stroke="#38bdf8" strokeWidth="1.2" />
+                      <text x="347" y="153" fill="#38bdf8" fontSize="10" fontWeight="900" textAnchor="middle">
+                        자연광 투과: 10%
+                      </text>
+                    </g>
+                  ) : (
+                    // ❌ [UNAPPLIED GLASS] Weak 8% Reflection + 12% Absorption + 80% Massive Transmission
+                    <g>
+                      {/* Weak Reflection */}
                       <path
-                        d="M 220 100 L 290 100"
-                        stroke="url(#softLightRay)"
+                        d="M 200 150 L 105 75"
+                        stroke="#94a3b8"
                         strokeWidth="2"
                         strokeDasharray="3 3"
                       />
-                    </g>
-                  ) : (
-                    // ❌ [UNAPPLIED GLASS] Heavy rays pierce straight through windows
-                    <g className="animate-pulse">
+                      <text x="110" y="65" fill="#94a3b8" fontSize="9" fontWeight="bold">
+                        반사: 8%
+                      </text>
+
+                      {/* Absorption */}
                       <path
-                        d="M 220 70 L 295 75"
-                        stroke="url(#penetratedRay)"
-                        strokeWidth="5"
+                        d="M 220 150 L 220 260"
+                        stroke="#ef4444"
+                        strokeWidth="3"
+                        strokeDasharray="3 3"
                       />
+                      <text x="220" y="278" fill="#f87171" fontSize="9" fontWeight="bold" textAnchor="middle">
+                        흡수열: 12% (과열)
+                      </text>
+
+                      {/* Massive Heat Transmission (80% 찜통) */}
                       <path
-                        d="M 220 100 L 295 100"
-                        stroke="url(#penetratedRay)"
-                        strokeWidth="6"
+                        d="M 240 150 L 420 150"
+                        stroke="#ef4444"
+                        strokeWidth="12"
+                        strokeLinecap="round"
+                        className="animate-pulse"
                       />
-                      <path
-                        d="M 220 130 L 295 125"
-                        stroke="url(#penetratedRay)"
-                        strokeWidth="5"
-                      />
+                      <polygon points="410,142 426,150 410,158" fill="#dc2626" />
+                      <rect x="285" y="132" width="125" height="32" rx="6" fill="#450a0a" stroke="#ef4444" strokeWidth="1.5" />
+                      <text x="347" y="152" fill="#fca5a5" fontSize="11" fontWeight="900" textAnchor="middle">
+                        ⚠️ 열선 투과: 80%
+                      </text>
                     </g>
                   )}
                 </svg>
 
-                {/* Real-time Status Floating Badge */}
-                <div className="absolute bottom-1 left-1/2 -translate-x-1/2 whitespace-nowrap">
-                  <span
-                    className={`px-3 py-1 rounded-full text-[11px] font-black tracking-tight border shadow-lg ${
-                      isFilmApplied
-                        ? 'bg-amber-500/20 text-amber-300 border-amber-500/40 shadow-amber-500/20'
-                        : 'bg-red-500/20 text-red-300 border-red-500/40 shadow-red-500/20'
-                    }`}
-                  >
-                    {isFilmApplied
-                      ? '⚡ 적외선 98% 실외 즉시 반사 튕김'
-                      : '⚠️ 일사열 100% 실내로 관통 유입'}
-                  </span>
+                {/* Boundary Floating Text */}
+                <div className="absolute bottom-2 left-4 text-[10px] font-bold text-amber-400 bg-black/70 px-2 py-0.5 rounded border border-amber-500/20">
+                  ◀ 실외 (태양열 방출)
+                </div>
+                <div className="absolute bottom-2 right-4 text-[10px] font-bold text-sky-400 bg-black/70 px-2 py-0.5 rounded border border-sky-500/20">
+                  실내 (쾌적 조망) ▶
                 </div>
               </div>
 
-              {/* 3. Right: Multi-Window Architectural Building Facade (창호가 많은 대형 건물) */}
-              <div className="lg:col-span-5 bg-[#17181c] p-4.5 sm:p-6 rounded-2xl border border-white/10 shadow-xl space-y-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <Building2 className={`w-4 h-4 ${isFilmApplied ? 'text-amber-400' : 'text-red-400'}`} />
-                    <h4 className="text-xs sm:text-sm font-extrabold text-white">
-                      창호 특화 대형 건물 단면 시뮬레이션
-                    </h4>
-                  </div>
-                  <span
-                    className={`text-[10px] font-black px-2 py-0.5 rounded ${
-                      isFilmApplied
-                        ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
-                        : 'bg-red-500/20 text-red-300 border border-red-500/30'
-                    }`}
-                  >
-                    {isFilmApplied ? '빛담 10년 품질보증' : '미시공 일반유리'}
-                  </span>
-                </div>
-
-                {/* 3x3 Architectural Glass Grid Panes (통창/커튼월 창호 그리드) */}
-                <div className="grid grid-cols-3 gap-2 bg-black/60 p-3 rounded-xl border border-white/5 relative">
-                  {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((pane) => (
-                    <div
-                      key={pane}
-                      className={`h-14 sm:h-16 rounded-lg relative overflow-hidden transition-all duration-500 flex flex-col justify-between p-1.5 ${
-                        isFilmApplied
-                          ? 'bg-gradient-to-br from-[#1e293b] via-[#0f172a] to-[#1e293b] border border-amber-400/50 shadow-inner'
-                          : 'bg-gradient-to-br from-red-900/60 via-red-950 to-orange-950/80 border border-red-500/50'
-                      }`}
-                    >
-                      {/* Film Coating Surface Layer Line */}
-                      {isFilmApplied && (
-                        <div className="absolute top-0 inset-x-0 h-0.5 bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 shadow-sm" />
-                      )}
-
-                      <span className="text-[9px] font-mono text-zinc-400">창호 #{pane}</span>
-                      
-                      <div className="flex items-center justify-between text-[10px] font-bold">
-                        <span className={isFilmApplied ? 'text-emerald-400' : 'text-red-400'}>
-                          {isFilmApplied ? '23.8℃' : '43.5℃'}
-                        </span>
-                        <span className="text-[8px] text-zinc-400 font-normal">
-                          {isFilmApplied ? '쾌적조망' : '눈부심'}
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-
-                  {/* Overlay scan indicator */}
-                  <div className="absolute top-2 right-2 text-[9px] font-mono text-zinc-400 bg-black/70 px-2 py-0.5 rounded backdrop-blur-sm">
-                    {isFilmApplied ? '● 99% 열차단 코팅 활성' : '▲ 실내 온실화 과열'}
-                  </div>
-                </div>
-
-                {/* Building Interior Climate Metrics */}
-                <div className="grid grid-cols-3 gap-2 text-center pt-1">
-                  <div className="bg-zinc-900/90 p-2.5 rounded-xl border border-zinc-800">
-                    <span className="text-[9px] text-zinc-400 block">실내 체감 온도</span>
-                    <strong className={`text-xs sm:text-sm font-black ${isFilmApplied ? 'text-emerald-400' : 'text-red-400'}`}>
-                      {isFilmApplied ? '24.0℃ 쾌적' : '43.2℃ 찜통'}
-                    </strong>
-                  </div>
-                  <div className="bg-zinc-900/90 p-2.5 rounded-xl border border-zinc-800">
-                    <span className="text-[9px] text-zinc-400 block">태양열 반사율</span>
-                    <strong className={`text-xs sm:text-sm font-black ${isFilmApplied ? 'text-amber-400' : 'text-zinc-500'}`}>
-                      {isFilmApplied ? 'IRR 98% 반사' : '0% (전부 유입)'}
-                    </strong>
-                  </div>
-                  <div className="bg-zinc-900/90 p-2.5 rounded-xl border border-zinc-800">
-                    <span className="text-[9px] text-zinc-400 block">냉방 에너지 절감</span>
-                    <strong className={`text-xs sm:text-sm font-black ${isFilmApplied ? 'text-sky-400' : 'text-red-400'}`}>
-                      {isFilmApplied ? '최대 30% 절감' : '냉방비 과다'}
-                    </strong>
-                  </div>
-                </div>
+              {/* Bottom Quick Caption */}
+              <div className="mt-3 text-[11px] text-zinc-400 flex items-center justify-between">
+                <span className="flex items-center gap-1.5 text-zinc-300">
+                  <Cpu className="w-3.5 h-3.5 text-amber-400" />
+                  스퍼터링 나노 원자막 반사 광학 기술
+                </span>
+                <span className="text-amber-400 font-bold">10년 품질 전자보증</span>
               </div>
             </div>
 
-            {/* 4. Bottom 3-Point Scientific Principle Cards (햇빛 반사 3대 메커니즘) */}
-            <div className="mt-8 pt-6 border-t border-zinc-800/80 grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="p-4 rounded-2xl bg-zinc-900/80 border border-zinc-800 space-y-1.5">
-                <div className="flex items-center gap-2 text-amber-400 font-extrabold text-xs">
-                  <Flame className="w-4 h-4" />
-                  <span>1. 적외선(열선) 98% 즉시 실외 반사</span>
-                </div>
-                <p className="text-[11px] text-zinc-400 leading-relaxed">
-                  유리가 열을 머금는 흡수형 방식이 아닌, 귀금속 스퍼터 다층막이 복사열을 실외로 즉각 튕겨내어 유리의 열파손 위험이 없습니다.
-                </p>
-              </div>
-
-              <div className="p-4 rounded-2xl bg-zinc-900/80 border border-zinc-800 space-y-1.5">
-                <div className="flex items-center gap-2 text-sky-400 font-extrabold text-xs">
-                  <ShieldCheck className="w-4 h-4" />
-                  <span>2. 유해 자외선(UV-A/B) 99.9% 영구 차단</span>
-                </div>
-                <p className="text-[11px] text-zinc-400 leading-relaxed">
-                  가구·마루·소파의 변색과 피부 트러블을 일으키는 유해 자외선을 원천 차단하여 실내 인테리어 자산을 완벽하게 보호합니다.
-                </p>
-              </div>
-
-              <div className="p-4 rounded-2xl bg-zinc-900/80 border border-zinc-800 space-y-1.5">
-                <div className="flex items-center gap-2 text-emerald-400 font-extrabold text-xs">
-                  <Eye className="w-4 h-4" />
-                  <span>3. 눈부심 제어 & 선명한 파노라마 뷰</span>
-                </div>
-                <p className="text-[11px] text-zinc-400 leading-relaxed">
-                  과도한 햇빛 눈부심만 차분하게 억제하고 자연 채광과 선명한 야외 조망은 그대로 유지하여 블라인드 없이 쾌적한 뷰를 선사합니다.
-                </p>
-              </div>
-            </div>
           </div>
         </div>
 
@@ -444,7 +583,7 @@ export const FilmProductSection: React.FC<FilmProductSectionProps> = ({ onSelect
               title: 'BD ST 시리즈 (멀티스퍼터)',
               tag: '최상위 플래그십',
               desc: '귀금속 원자 다층 증착 순수 열반사',
-              spec: 'IRR 98% / TSER 78%',
+              spec: '반사율 80% / IRR 98%',
             },
             {
               category: 'deposit_sputter',

@@ -20,7 +20,6 @@ export const FloatingConsultationDock: React.FC<FloatingConsultationDockProps> =
   const [todayConsultationCount, setTodayConsultationCount] = useState<number>(() => {
     const now = new Date();
     const currentMinutesFromMidnight = now.getHours() * 60 + now.getMinutes();
-    // Base morning initial count (e.g. 5 cases) + 1 case every 30 minutes from midnight
     const baseInitialCount = 5;
     const computedCount = baseInitialCount + Math.floor(currentMinutesFromMidnight / 30);
     return computedCount;
@@ -30,7 +29,6 @@ export const FloatingConsultationDock: React.FC<FloatingConsultationDockProps> =
     const updateCounter = () => {
       const now = new Date();
       const currentMinutesFromMidnight = now.getHours() * 60 + now.getMinutes();
-      
       const baseInitialCount = 5;
       const count = baseInitialCount + Math.floor(currentMinutesFromMidnight / 30);
       setTodayConsultationCount(count);
@@ -59,11 +57,11 @@ export const FloatingConsultationDock: React.FC<FloatingConsultationDockProps> =
 
   return (
     <>
-      {/* Scroll to Top Button */}
+      {/* Scroll to Top Button (Fixed Bottom Right) */}
       {showScrollTop && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-24 right-4 sm:right-6 z-40 p-3 rounded-full bg-[#121214] text-white shadow-xl hover:bg-zinc-800 transition-all border border-zinc-800 backdrop-blur-md active:scale-95 cursor-pointer"
+          className="fixed bottom-6 right-4 sm:right-6 z-40 p-3 rounded-full bg-[#121214] text-white shadow-xl hover:bg-zinc-800 transition-all border border-zinc-800 backdrop-blur-md active:scale-95 cursor-pointer"
           aria-label="맨 위로 이동"
           title="상단으로 이동"
         >
@@ -71,17 +69,17 @@ export const FloatingConsultationDock: React.FC<FloatingConsultationDockProps> =
         </button>
       )}
 
-      {/* Desktop Persistent Floating Consultation Dock (Fixed at Bottom Right) */}
-      <div className="fixed bottom-6 right-6 z-40 hidden md:block select-none">
-        {/* Today Consultation Real-time Live Badge Indicator (Positioned right above the button/card) */}
+      {/* Desktop Persistent Floating Consultation Dock (Fixed at Middle Right: 화면 우측 중간) */}
+      <div className="fixed top-1/2 -translate-y-1/2 right-4 sm:right-6 z-40 hidden md:block select-none transition-all duration-300">
+        {/* Today Consultation Real-time Live Badge Indicator */}
         <div className="mb-2.5 flex items-center justify-end">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#121214]/95 border border-amber-500/50 shadow-2xl backdrop-blur-md text-zinc-200">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#121214]/95 border border-amber-500/50 shadow-2xl backdrop-blur-md text-zinc-200">
             <span className="flex h-2 w-2 relative">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
             </span>
             <div className="flex items-center gap-1.5 text-[11px] font-bold">
-              <span className="text-zinc-400">오늘 실시간 상담</span>
+              <span className="text-zinc-400">오늘 상담</span>
               <span className="text-amber-400 font-extrabold text-xs px-1.5 py-0.5 rounded bg-amber-500/15 border border-amber-500/30">
                 {todayConsultationCount}건
               </span>
@@ -188,17 +186,19 @@ export const FloatingConsultationDock: React.FC<FloatingConsultationDockProps> =
             </div>
           </div>
         ) : (
-          /* Minimized Floating Button */
-          <button
-            onClick={() => setIsExpanded(true)}
-            className="flex items-center gap-3 px-4 py-3 bg-[#121214] text-white rounded-full shadow-2xl border-2 border-amber-500 hover:bg-zinc-800 transition-all cursor-pointer group animate-bounce-subtle"
-          >
-            <div className="w-3 h-3 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="text-xs font-extrabold text-white">빛담 실시간 빠른 상담</span>
-            <div className="w-7 h-7 rounded-full bg-amber-500 text-zinc-950 flex items-center justify-center font-bold text-xs">
-              💬
-            </div>
-          </button>
+          /* Minimized Floating Quick Menu (Side Dock Style at Middle Right) */
+          <div className="flex flex-col items-end gap-2">
+            <button
+              onClick={() => setIsExpanded(true)}
+              className="flex items-center gap-3 px-4 py-3 bg-[#121214] text-white rounded-2xl shadow-2xl border-2 border-amber-500 hover:bg-zinc-800 transition-all cursor-pointer group hover:scale-105"
+            >
+              <div className="w-3 h-3 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="text-xs font-extrabold text-white">빛담 실시간 빠른 상담</span>
+              <div className="w-7 h-7 rounded-xl bg-amber-500 text-zinc-950 flex items-center justify-center font-bold text-xs shadow-md">
+                💬
+              </div>
+            </button>
+          </div>
         )}
       </div>
 
@@ -248,4 +248,3 @@ export const FloatingConsultationDock: React.FC<FloatingConsultationDockProps> =
     </>
   );
 };
-

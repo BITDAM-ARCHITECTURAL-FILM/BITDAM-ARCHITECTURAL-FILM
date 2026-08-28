@@ -66,24 +66,24 @@ export const AdvantagesSection: React.FC<AdvantagesSectionProps> = ({ onOpenCons
   ];
 
   return (
-    <section id="advantages" className="py-20 bg-[#0A0A0B] relative overflow-hidden text-zinc-200">
-      {/* Subtle Background Glow */}
-      <div className="absolute top-1/3 right-0 w-96 h-96 bg-amber-500/10 rounded-full blur-[140px] pointer-events-none" />
+    <section id="advantages" className="py-20 sm:py-24 bg-white relative overflow-hidden text-zinc-800 border-b border-zinc-200">
+      {/* Subtle Background Glow for White Theme */}
+      <div className="absolute top-1/3 right-0 w-96 h-96 bg-amber-400/10 rounded-full blur-[140px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto space-y-4 mb-16">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-300 text-xs font-bold">
-            <Award className="w-3.5 h-3.5 text-amber-400" />
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-800 text-xs font-bold shadow-sm">
+            <Award className="w-3.5 h-3.5 text-amber-600" />
             <span>빛담만의 4대 시공 원칙</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-zinc-900 tracking-tight">
             단 1%의 타협도 없는 <br className="hidden sm:inline" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-amber-400 to-orange-400">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-600 via-amber-500 to-orange-500">
               빛담 프리미엄 시공 퀄리티
             </span>
           </h2>
-          <p className="text-zinc-400 text-base sm:text-lg leading-relaxed">
+          <p className="text-zinc-600 text-base sm:text-lg leading-relaxed">
             저가 염색 필름과 비숙련 시공은 1년 만에 기포와 탈색을 유발합니다. 
             빛담은 정품 자재와 10년 경력 마스터의 직영 시공만을 고집합니다.
           </p>
@@ -94,35 +94,35 @@ export const AdvantagesSection: React.FC<AdvantagesSectionProps> = ({ onOpenCons
           {CORE_ADVANTAGES.map((adv) => (
             <div
               key={adv.id}
-              className="group relative bg-[#121214] rounded-2xl p-6 sm:p-7 shadow-xl hover:shadow-2xl transition-all duration-300 border border-white/5 hover:border-amber-500/40 flex flex-col justify-between"
+              className="group relative bg-zinc-50/90 rounded-2xl p-6 sm:p-7 shadow-sm hover:shadow-xl transition-all duration-300 border border-zinc-200 hover:border-amber-500/50 flex flex-col justify-between"
             >
               <div>
                 <div className="flex items-center justify-between mb-4">
-                  <span className="text-3xl font-black text-zinc-700 group-hover:text-amber-400 transition-colors">
+                  <span className="text-3xl font-black text-zinc-300 group-hover:text-amber-500 transition-colors">
                     {adv.number}
                   </span>
-                  <span className="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-bold bg-amber-500/10 text-amber-300 border border-amber-500/20">
+                  <span className="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-bold bg-amber-100/70 text-amber-800 border border-amber-200">
                     {adv.badge}
                   </span>
                 </div>
-                <h3 className="text-lg font-bold text-white mb-2.5 group-hover:text-amber-300 transition-colors leading-snug">
+                <h3 className="text-lg font-bold text-zinc-900 mb-2.5 group-hover:text-amber-600 transition-colors leading-snug">
                   {adv.title}
                 </h3>
-                <p className="text-sm text-zinc-400 leading-relaxed">
+                <p className="text-sm text-zinc-600 leading-relaxed">
                   {adv.description}
                 </p>
               </div>
 
-              <div className="mt-6 pt-4 border-t border-zinc-800/80 flex items-center justify-between">
+              <div className="mt-6 pt-4 border-t border-zinc-200/80 flex items-center justify-between">
                 <span className="text-xs text-zinc-500 font-medium">검증 스펙</span>
-                <span className="text-sm font-extrabold text-amber-400">{adv.stat}</span>
+                <span className="text-sm font-extrabold text-amber-600">{adv.stat}</span>
               </div>
             </div>
           ))}
         </div>
 
         {/* 7 Core Effects of Window Film Banner */}
-        <div className="bg-[#121214] rounded-3xl p-8 sm:p-12 text-white shadow-2xl relative overflow-hidden border border-zinc-800">
+        <div className="bg-gradient-to-br from-zinc-900 via-zinc-900 to-zinc-950 rounded-3xl p-8 sm:p-12 text-white shadow-2xl relative overflow-hidden border border-zinc-800">
           <div className="relative z-10">
             <div className="max-w-3xl mb-10">
               <span className="text-xs font-bold text-amber-400 tracking-wider uppercase">
@@ -142,7 +142,7 @@ export const AdvantagesSection: React.FC<AdvantagesSectionProps> = ({ onOpenCons
                 return (
                   <div
                     key={idx}
-                    className="bg-zinc-900/90 border border-zinc-800 rounded-2xl p-5 hover:border-amber-500/40 hover:bg-zinc-900 transition-all shadow-md flex flex-col justify-between"
+                    className="bg-zinc-800/80 border border-zinc-700/80 rounded-2xl p-5 hover:border-amber-500/50 hover:bg-zinc-800 transition-all shadow-md flex flex-col justify-between"
                   >
                     <div>
                       <div className="flex items-center gap-3 mb-3">
@@ -154,7 +154,7 @@ export const AdvantagesSection: React.FC<AdvantagesSectionProps> = ({ onOpenCons
                           <span className="text-[11px] font-semibold text-amber-400">{benefit.tag}</span>
                         </div>
                       </div>
-                      <p className="text-xs text-zinc-400 leading-relaxed">{benefit.desc}</p>
+                      <p className="text-xs text-zinc-300 leading-relaxed">{benefit.desc}</p>
                     </div>
                   </div>
                 );
@@ -186,7 +186,7 @@ export const AdvantagesSection: React.FC<AdvantagesSectionProps> = ({ onOpenCons
         </div>
 
         {/* Authentic Brand Trust Ribbon */}
-        <div className="mt-16 pt-12 border-t border-zinc-800/80">
+        <div className="mt-16 pt-12 border-t border-zinc-200">
           <p className="text-center text-xs font-bold text-zinc-500 uppercase tracking-wider mb-6">
             공식 정품 공급 파트너 브랜드 (100% 정품 바코드 & 모바일 보증서 발급)
           </p>
@@ -194,10 +194,10 @@ export const AdvantagesSection: React.FC<AdvantagesSectionProps> = ({ onOpenCons
             {brandPartners.map((bp, i) => (
               <div
                 key={i}
-                className="bg-[#121214] rounded-xl p-5 border border-white/5 text-center hover:border-amber-500/40 transition-all shadow-md flex flex-col items-center justify-center"
+                className="bg-zinc-50 rounded-xl p-5 border border-zinc-200 text-center hover:border-amber-500/40 hover:shadow-md transition-all flex flex-col items-center justify-center"
               >
-                <div className="text-lg font-black text-zinc-100 tracking-tight">{bp.logoText}</div>
-                <div className="text-xs font-medium text-zinc-400 mt-1">{bp.desc}</div>
+                <div className="text-lg font-black text-zinc-900 tracking-tight">{bp.logoText}</div>
+                <div className="text-xs font-medium text-zinc-600 mt-1">{bp.desc}</div>
               </div>
             ))}
           </div>

@@ -121,9 +121,9 @@ export const HeroSlider: React.FC<HeroSliderProps> = ({
             {/* Main Headline */}
             <div className="space-y-3">
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-[1.15] text-white">
-                빛을 담고, 열은 막아 <br className="hidden sm:inline" />
+                빛은 담고, 열은 막아 <br className="hidden sm:inline" />
                 <span className="bg-gradient-to-r from-amber-300 via-amber-400 to-orange-400 bg-clip-text text-transparent">
-                  완벽한 사계절 실내 환경
+                 사계절 쾌적한 실내 환경
                 </span>
                 을 완성합니다
               </h1>

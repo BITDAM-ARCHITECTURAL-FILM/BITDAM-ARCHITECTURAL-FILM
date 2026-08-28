@@ -63,18 +63,38 @@ export const QuickEstimator: React.FC<QuickEstimatorProps> = ({ onApplyEstimateT
 
   const matchedFilm = getMatchedFilm();
 
-  // Dynamic calculations
+  // Dynamic calculations reflecting: 최고사양 ~40만원대, 고사양 ~30만원대, 세라믹 ~20만원대 절약 (34평 기준)
   const calculateResult = () => {
-    let baseSavingsPerYear = params.pyeongSize * 14000;
-    if (params.preferredGrade === 'flagship') baseSavingsPerYear *= 1.38;
-    if (params.preferredGrade === 'premium') baseSavingsPerYear *= 1.22;
-    if (params.windowExposure === 'south' || params.windowExposure === 'west') baseSavingsPerYear *= 1.15;
+    let baseAnnualSaving = 220000; // 세라믹 기본 (약 20만원대)
+    if (params.preferredGrade === 'flagship') {
+      baseAnnualSaving = 430000; // 최고사양 (약 40만원대)
+    } else if (params.preferredGrade === 'premium') {
+      baseAnnualSaving = 320000; // 고사양 (약 30만원대)
+    } else {
+      baseAnnualSaving = 220000; // 세라믹 (약 20만원대)
+    }
+
+    // 평수 비례 계산
+    const pyeongFactor = params.pyeongSize / 34;
+    let computedSavings = Math.round(baseAnnualSaving * pyeongFactor);
+
+    // 남향/서향 일조량 가중치
+    if (params.windowExposure === 'south' || params.windowExposure === 'west') {
+      computedSavings = Math.round(computedSavings * 1.05);
+    }
 
     const tempDrop = params.preferredGrade === 'flagship' ? '14.5℃' : params.preferredGrade === 'premium' ? '12.8℃' : '10.5℃';
     const durationHours = params.pyeongSize <= 35 ? '약 3~4시간 (마스터 2인 1조)' : params.pyeongSize <= 60 ? '약 4~6시간' : '약 1일 (마스터 4인 전담)';
 
+    const gradeSavingTitle = params.preferredGrade === 'flagship'
+      ? '최고사양 약 40만원대 절약'
+      : params.preferredGrade === 'premium'
+        ? '고사양 약 30만원대 절약'
+        : '세라믹 약 20만원대 절약';
+
     return {
-      savingsFormatted: Math.round(baseSavingsPerYear).toLocaleString('ko-KR') + '원 / 년',
+      savingsFormatted: computedSavings.toLocaleString('ko-KR') + '원 / 년',
+      gradeSavingTitle,
       tempDrop,
       durationHours,
     };
@@ -209,8 +229,8 @@ export const QuickEstimator: React.FC<QuickEstimatorProps> = ({ onApplyEstimateT
                   {
                     id: 'flagship',
                     title: 'BD ST 시리즈',
-                    techMethod: '멀티레이어 스퍼터',
-                    badge: '최상위 플래그십',
+                    techMethod: '멀티레이어 스퍼터 (최고사양)',
+                    badge: '최고 등급',
                     badgeColor: 'bg-amber-400 text-black font-black',
                     highlight: '귀금속 원자 다층 증착 열반사',
                     specSummary: 'IRR 98% / TSER 78%',
@@ -218,7 +238,7 @@ export const QuickEstimator: React.FC<QuickEstimatorProps> = ({ onApplyEstimateT
                   {
                     id: 'premium',
                     title: 'BD AP 시리즈',
-                    techMethod: '증착스퍼터 Low-E',
+                    techMethod: '증착스퍼터 Low-E (고사양)',
                     badge: '사계절 단열',
                     badgeColor: 'bg-sky-500/20 text-sky-300 border border-sky-500/30 font-bold',
                     highlight: '진공 고온 금속증착 스퍼터',
@@ -227,7 +247,7 @@ export const QuickEstimator: React.FC<QuickEstimatorProps> = ({ onApplyEstimateT
                   {
                     id: 'standard',
                     title: 'BD IR 시리즈',
-                    techMethod: '순수 나노세라믹',
+                    techMethod: '순수 나노세라믹 (세라믹)',
                     badge: '비금속 무반사',
                     badgeColor: 'bg-zinc-800 text-zinc-300 font-bold',
                     highlight: '초미립자 나노세라믹 열흡수',
@@ -250,7 +270,7 @@ export const QuickEstimator: React.FC<QuickEstimatorProps> = ({ onApplyEstimateT
                           {gr.badge}
                         </span>
                       </div>
-                      <div className={`text-xs font-black mb-1 ${params.preferredGrade === gr.id ? 'text-amber-400' : 'text-zinc-300'}`}>
+                      <div className={`text-xs font-black mb-1.5 ${params.preferredGrade === gr.id ? 'text-amber-400' : 'text-zinc-300'}`}>
                         {gr.techMethod}
                       </div>
                       <div className="text-[10px] text-zinc-400 leading-tight mb-2">
@@ -258,7 +278,7 @@ export const QuickEstimator: React.FC<QuickEstimatorProps> = ({ onApplyEstimateT
                       </div>
                     </div>
                     <div className="pt-2 border-t border-white/5 flex items-center justify-between text-[10px] text-zinc-400">
-                      <span>대표 스펙:</span>
+                      <span>스펙:</span>
                       <strong className={params.preferredGrade === gr.id ? 'text-amber-300' : 'text-zinc-300'}>{gr.specSummary}</strong>
                     </div>
                   </button>
@@ -402,17 +422,22 @@ export const QuickEstimator: React.FC<QuickEstimatorProps> = ({ onApplyEstimateT
 
             {/* Metrics Grid */}
             <div className="grid grid-cols-2 gap-2.5">
-              <div className="bg-zinc-900/80 p-3.5 rounded-2xl border border-zinc-800/80">
-                <span className="text-[10px] text-zinc-400 font-medium block">연간 예상 절감액</span>
-                <div className="text-base font-extrabold text-amber-400 mt-0.5">
+              <div className="bg-zinc-900/80 p-3.5 rounded-2xl border border-amber-500/30 bg-gradient-to-br from-amber-500/10 to-transparent">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] text-zinc-300 font-bold block">1년 예상 냉난방비 절감액</span>
+                  <span className="text-[9px] px-1.5 py-0.5 rounded font-black bg-amber-400 text-black">
+                    {result.gradeSavingTitle}
+                  </span>
+                </div>
+                <div className="text-base font-extrabold text-amber-400 mt-1">
                   약 {result.savingsFormatted}
                 </div>
-                <span className="text-[10px] text-zinc-500">냉난방비 최대 30% 절감</span>
+                <span className="text-[10px] text-zinc-400">34평 기준 (냉난방비 최대 30% 절약)</span>
               </div>
 
               <div className="bg-zinc-900/80 p-3.5 rounded-2xl border border-zinc-800/80">
-                <span className="text-[10px] text-zinc-400 font-medium block">창가 온도 하강치</span>
-                <div className="text-base font-extrabold text-sky-400 mt-0.5">
+                <span className="text-[10px] text-zinc-400 font-medium block">창가 체감온도 하강치</span>
+                <div className="text-base font-extrabold text-sky-400 mt-1">
                   {result.tempDrop} 하강
                 </div>
                 <span className="text-[10px] text-zinc-500">FLIR 열화상 검증 기준</span>

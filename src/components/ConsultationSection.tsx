@@ -107,23 +107,6 @@ export const ConsultationSection: React.FC<ConsultationSectionProps> = ({
                 <span className="text-xs font-bold text-amber-400">즉시 통화 →</span>
               </a>
 
-              {/* Direct Mobile Call Card */}
-              <a
-                href={`tel:${BRAND_INFO.directPhone}`}
-                className="flex items-center justify-between p-4 rounded-2xl bg-[#121214]/70 border border-zinc-800 hover:border-amber-400/60 transition-all group"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-zinc-800 text-amber-400 flex items-center justify-center">
-                    <Phone className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <span className="text-[11px] text-zinc-400 block">시공 마스터 직통 핸드폰</span>
-                    <strong className="text-sm font-bold text-white">{BRAND_INFO.directPhone}</strong>
-                  </div>
-                </div>
-                <span className="text-[11px] text-zinc-400 group-hover:text-white">문자/통화</span>
-              </a>
-
               {/* Kakao Talk Consultation Card */}
               <button
                 onClick={onOpenKakaoChat}
