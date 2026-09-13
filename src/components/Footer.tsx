@@ -99,6 +99,15 @@ export const Footer: React.FC<FooterProps> = ({
                   실제 고객 시공 후기
                 </a>
               </li>
+              <li>
+                <a
+                  href="#faq"
+                  onClick={(e) => handleFooterNavClick(e, '#faq')}
+                  className="hover:text-amber-400 transition-colors cursor-pointer text-amber-400/90"
+                >
+                  열차단·단열필름 시공 Q&A
+                </a>
+              </li>
             </ul>
           </div>
 
@@ -122,7 +131,7 @@ export const Footer: React.FC<FooterProps> = ({
               </div>
               <div className="text-xs text-zinc-400 flex items-center gap-1.5">
                 <MapPin className="w-3.5 h-3.5 text-amber-500 shrink-0" />
-                <span>수도권 및 전국 무료 방문 실측 지원</span>
+                <span>수도권 및 전국 전문 실측·시공 지원</span>
               </div>
             </div>
 
@@ -136,13 +145,17 @@ export const Footer: React.FC<FooterProps> = ({
                 <MessageCircle className="w-4 h-4 fill-current" />
                 <span>카톡 1:1 상담</span>
               </a>
-              <button
-                onClick={onOpenConsultation}
-                className="flex-1 py-2.5 px-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-zinc-950 font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-sm cursor-pointer"
+              <a
+                href={BRAND_INFO.naverBizFormUrl || 'https://talk.naver.com/profile/wo2piug/form/1'}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 py-2.5 px-3 rounded-xl bg-[#03C75A] hover:bg-[#02b351] text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-sm cursor-pointer"
               >
-                <ShieldCheck className="w-4 h-4" />
-                <span>무료 견적신청</span>
-              </button>
+                <svg viewBox="0 0 24 24" fill="currentColor" className="w-3.5 h-3.5" aria-hidden="true">
+                  <path d="M16.273 12.845 7.376 0H0v24h7.726V11.155L16.624 24H24V0h-7.727v12.845z" />
+                </svg>
+                <span>톡톡 비즈폼</span>
+              </a>
             </div>
           </div>
         </div>
@@ -158,7 +171,7 @@ export const Footer: React.FC<FooterProps> = ({
             <span className="text-zinc-700 hidden sm:inline">|</span>
             <span><strong className="text-zinc-300">본사 주소:</strong> {BRAND_INFO.address}</span>
             <span className="text-zinc-700 hidden sm:inline">|</span>
-            <span className="text-amber-400 font-bold">전국 시공 전문 (수도권 및 전국 무료 방문 견적)</span>
+            <span className="text-amber-400 font-bold">전국 시공 전문 (수도권 및 전국 시공 지원)</span>
           </div>
           <div className="flex flex-wrap items-center justify-between gap-2 pt-2 text-zinc-500">
             <p>© 2026 {BRAND_INFO.name} ({BRAND_INFO.englishName}). All rights reserved.</p>

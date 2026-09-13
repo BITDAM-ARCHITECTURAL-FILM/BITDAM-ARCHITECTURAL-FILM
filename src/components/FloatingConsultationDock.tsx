@@ -119,22 +119,26 @@ export const FloatingConsultationDock: React.FC<FloatingConsultationDockProps> =
 
             {/* Quick Actions List */}
             <div className="space-y-2">
-              {/* 1. Free Onsite Quote */}
-              <button
-                onClick={onOpenConsultation}
-                className="w-full py-3 px-3.5 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold text-xs shadow-md flex items-center justify-between transition-all cursor-pointer group"
+              {/* 1. Naver TalkTalk Bizform Direct Link */}
+              <a
+                href={BRAND_INFO.naverBizFormUrl || 'https://talk.naver.com/profile/wo2piug/form/1'}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full py-3 px-3.5 rounded-2xl bg-[#03C75A] hover:bg-[#02b351] text-white font-bold text-xs shadow-md flex items-center justify-between transition-all cursor-pointer group"
               >
                 <div className="flex items-center gap-2.5">
-                  <div className="w-7 h-7 rounded-xl bg-white/20 flex items-center justify-center">
-                    <ShieldCheck className="w-4 h-4 text-white" />
+                  <div className="w-7 h-7 rounded-xl bg-white text-[#03C75A] flex items-center justify-center font-black">
+                    <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4" aria-hidden="true">
+                      <path d="M16.273 12.845 7.376 0H0v24h7.726V11.155L16.624 24H24V0h-7.727v12.845z" />
+                    </svg>
                   </div>
                   <div className="text-left">
-                    <span className="block font-black text-xs leading-none">무료 방문 실측 & 견적</span>
-                    <span className="text-[10px] text-white/80">출장비 0원 / 정품 샘플 확인</span>
+                    <span className="block font-black text-xs leading-none">네이버 톡톡 비즈폼 바로가기</span>
+                    <span className="text-[10px] text-white/90">1초 간편 신청 & 실시간 톡톡 저장</span>
                   </div>
                 </div>
-                <span className="text-xs font-bold text-amber-200 group-hover:translate-x-1 transition-transform">신청 →</span>
-              </button>
+                <span className="text-xs font-bold text-emerald-100 group-hover:translate-x-1 transition-transform">작성 →</span>
+              </a>
 
               {/* 2. KakaoTalk 1:1 Live Chat */}
               <a
@@ -235,14 +239,18 @@ export const FloatingConsultationDock: React.FC<FloatingConsultationDockProps> =
             <span>전화상담</span>
           </a>
 
-          {/* Free Quote Consultation */}
-          <button
-            onClick={onOpenConsultation}
-            className="py-3 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold text-xs flex flex-col items-center justify-center gap-0.5 shadow-md active:scale-95 transition-transform cursor-pointer"
+          {/* Naver TalkTalk Bizform */}
+          <a
+            href={BRAND_INFO.naverBizFormUrl || 'https://talk.naver.com/profile/wo2piug/form/1'}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="py-3 rounded-xl bg-[#03C75A] text-white font-bold text-xs flex flex-col items-center justify-center gap-0.5 shadow-md active:scale-95 transition-transform cursor-pointer"
           >
-            <ShieldCheck className="w-4 h-4" />
-            <span>방문견적</span>
-          </button>
+            <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4" aria-hidden="true">
+              <path d="M16.273 12.845 7.376 0H0v24h7.726V11.155L16.624 24H24V0h-7.727v12.845z" />
+            </svg>
+            <span>톡톡 비즈폼</span>
+          </a>
         </div>
       </div>
     </>

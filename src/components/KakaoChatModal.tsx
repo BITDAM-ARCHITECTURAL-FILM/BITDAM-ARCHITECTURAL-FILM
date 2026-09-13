@@ -34,7 +34,7 @@ export const KakaoChatModal: React.FC<KakaoChatModalProps> = ({ isOpen, onClose,
     '34평 아파트 단열필름 예상 견적이 궁금해요.',
     '시공 시 소음이나 먼지가 많이 발생하나요?',
     '시선차단 필름은 밤에도 밖에서 안 보이나요?',
-    '무료 방문 실측 및 샘플 확인 예약하고 싶어요.',
+    '네이버 톡톡 비즈폼으로 견적 확인하고 싶어요.',
   ];
 
   const handleSendMessage = (customText?: string) => {
@@ -54,16 +54,16 @@ export const KakaoChatModal: React.FC<KakaoChatModalProps> = ({ isOpen, onClose,
 
     // Automated intelligent bot response simulation
     setTimeout(() => {
-      let replyText = '문의 주셔서 감사합니다! 전문 마스터가 고객님의 상담 내용을 확인 중입니다. 남겨주신 조건에 최적화된 정품 필름(RAYNO / 3M / 루마) 샘플과 상세 견적서를 안내해 드리겠습니다.';
+      let replyText = '문의 주셔서 감사합니다! 전문 마스터가 고객님의 상담 내용을 확인 중입니다. 남겨주신 조건에 최적화된 정품 필름(빛담 프리미엄 / 3M / 루마) 샘플과 상세 견적서를 안내해 드리겠습니다.';
 
       if (textToSend.includes('34평') || textToSend.includes('견적')) {
-        replyText = `34평형 아파트(거실 통창+주방+침실 전체)는 보통 창호 면적 약 45~55㎡ 기준이며, 10년 보증 정품 나노 세라믹 필름 시공 시 40만원대 후반~80만원대(필름 등급별 상이)로 형성됩니다. 정확한 실측 시 0원 무료 방문으로 오차 없는 견적을 산출해 드립니다.`;
+        replyText = `34평형 아파트(거실 통창+주방+침실 전체)는 보통 창호 면적 약 45~55㎡ 기준이며, 10년 보증 정품 나노 세라믹 필름 시공 시 40만원대 후반~80만원대(필름 등급별 상이)로 형성됩니다. 비즈폼 또는 카톡 상담으로 오차 없는 최적 견적을 산출해 드립니다.`;
       } else if (textToSend.includes('소음') || textToSend.includes('먼지')) {
         replyText = `빛담의 모든 시공은 소음이 전혀 없으며, 3중 바닥 보양재 및 미세 먼지 안개 분무 시스템을 가동하여 가구와 마루를 완벽히 보호합니다. 거주 중이신 상태에서도 일상생활에 아무런 지장 없이 3~4시간 내에 깔끔히 완료됩니다!`;
       } else if (textToSend.includes('밤') || textToSend.includes('시선차단')) {
         replyText = `원웨이(One-Way) 시선차단 필름은 빛의 조도 차이를 이용하므로, 낮에는 밖에서 완벽한 거울 반사로 실내가 보이지 않습니다. 밤에 실내 조명을 켜시면 블라인드나 얇은 쉬폰 커튼을 가볍게 쳐주시는 것이 좋습니다.`;
-      } else if (textToSend.includes('방문') || textToSend.includes('실측')) {
-        replyText = `네, 고객님! 수도권 및 전국 무료 출장 방문 실측을 바로 접수해 드릴까요? 아래 '무료 방문 실측 폼 작성' 버튼을 눌러주시면 원하시는 일정을 배정해 드립니다.`;
+      } else if (textToSend.includes('비즈폼') || textToSend.includes('견적') || textToSend.includes('실측')) {
+        replyText = `네, 고객님! 네이버 톡톡 비즈폼으로 빠르고 간편하게 견적 접수를 도와드릴까요? 아래 '네이버 톡톡 비즈폼 접수' 버튼을 눌러주시면 원하시는 상담 일정을 배정해 드립니다.`;
       }
 
       const botReply: ChatMessage = {
@@ -171,10 +171,10 @@ export const KakaoChatModal: React.FC<KakaoChatModalProps> = ({ isOpen, onClose,
                 onClose();
                 onOpenConsultation();
               }}
-              className="flex-1 py-2 rounded-xl text-[11px] font-bold bg-amber-500 hover:bg-amber-600 text-zinc-950 transition-colors flex items-center justify-center gap-1 cursor-pointer"
+              className="flex-1 py-2 rounded-xl text-[11px] font-bold bg-[#03C75A] hover:bg-[#02b351] text-white transition-colors flex items-center justify-center gap-1 cursor-pointer"
             >
-              <ShieldCheck className="w-3.5 h-3.5 text-zinc-950" />
-              <span>무료 방문 실측 신청서 작성</span>
+              <ShieldCheck className="w-3.5 h-3.5 text-white" />
+              <span>네이버 톡톡 비즈폼 접수</span>
             </button>
 
             <a

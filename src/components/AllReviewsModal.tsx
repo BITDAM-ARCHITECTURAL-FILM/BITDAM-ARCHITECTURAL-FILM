@@ -380,7 +380,7 @@ export const AllReviewsModal: React.FC<AllReviewsModalProps> = ({
             className="w-full sm:w-auto px-6 py-2.5 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-black font-extrabold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg shadow-amber-500/20 transition-all cursor-pointer"
           >
             <Send className="w-4 h-4" />
-            <span>우리 집·건물 100% 무료 방문 실측 신청하기</span>
+            <span>우리 집·건물 맞춤 필름 견적 상담하기</span>
           </button>
         </div>
 

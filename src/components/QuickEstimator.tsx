@@ -452,11 +452,11 @@ export const QuickEstimator: React.FC<QuickEstimatorProps> = ({ onApplyEstimateT
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-                <span className="text-[11px]">방문 실측 시 실제 <strong>{matchedFilm.seriesName.split(' ')[0]} {matchedFilm.seriesName.split(' ')[1]}</strong> 샘플 및 열차단 램프 시연</span>
+                <span className="text-[11px]">상담 시 실제 <strong>{matchedFilm.seriesName.split(' ')[0]} {matchedFilm.seriesName.split(' ')[1]}</strong> 정품 샘플 및 데이터 안내</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-                <span className="text-[11px]">수도권 및 전국 무료 출장 방문 (출장비 0원)</span>
+                <span className="text-[11px]">수도권 및 전국 시공 지원 (오차 없는 정밀 시공)</span>
               </div>
             </div>
 
@@ -466,7 +466,7 @@ export const QuickEstimator: React.FC<QuickEstimatorProps> = ({ onApplyEstimateT
               className="w-full py-3.5 px-5 rounded-2xl font-black text-xs sm:text-sm bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white shadow-xl shadow-amber-500/25 transition-all duration-200 cursor-pointer flex items-center justify-center gap-2 active:scale-98"
             >
               <ShieldCheck className="w-4 h-4" />
-              <span>이 추천 모델로 무료 방문 실측 & 견적 신청</span>
+              <span>이 추천 모델로 톡톡 비즈폼 견적 접수</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>

@@ -7,14 +7,12 @@ interface NavbarProps {
   onOpenConsultation: () => void;
   onOpenKakaoChat: () => void;
   onOpenEstimator: () => void;
-  onOpenWarrantyLookup: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
   onOpenConsultation,
   onOpenKakaoChat,
   onOpenEstimator,
-  onOpenWarrantyLookup,
 }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -41,12 +39,12 @@ export const Navbar: React.FC<NavbarProps> = ({
   };
 
   const navLinks = [
-    { label: '빛담소개', href: '#advantages', isAction: false },
-    { label: '필름종류', href: '#products', isAction: false },
-    { label: '현장스토리', href: '#portfolio', isAction: false },
-    { label: '블로그시공기', href: '#blog-sync', isAction: false },
-    { label: 'AI필름추천', href: '#estimator', isAction: false },
-    { label: '품질보증서 조회', href: '#', isAction: true, action: onOpenWarrantyLookup },
+    { label: '빛담소개', href: '#advantages' },
+    { label: '필름종류', href: '#products' },
+    { label: '현장스토리', href: '#portfolio' },
+    { label: '블로그시공기', href: '#blog-sync' },
+    { label: 'AI필름추천', href: '#estimator' },
+    { label: 'Q&A', href: '#faq' },
   ];
 
   return (
@@ -64,34 +62,35 @@ export const Navbar: React.FC<NavbarProps> = ({
             <BrandLogo variant="dark" size="md" />
           </a>
 
-          {/* Desktop Navigation Links (Exact 5 items) */}
+          {/* Desktop Navigation Links */}
           <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
-            {navLinks.map((link) =>
-              link.isAction ? (
-                <button
-                  key={link.label}
-                  type="button"
-                  onClick={link.action}
-                  className="px-3.5 py-2 text-sm font-bold text-amber-400 hover:text-amber-300 rounded-lg hover:bg-amber-500/10 transition-colors cursor-pointer flex items-center gap-1"
-                >
-                  <ShieldCheck className="w-4 h-4 text-amber-400" />
-                  <span>{link.label}</span>
-                </button>
-              ) : (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  onClick={(e) => handleNavClick(e, link.href)}
-                  className="px-3.5 py-2 text-sm font-semibold text-zinc-300 hover:text-amber-400 rounded-lg hover:bg-zinc-800/50 transition-colors cursor-pointer"
-                >
-                  {link.label}
-                </a>
-              )
-            )}
+            {navLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                onClick={(e) => handleNavClick(e, link.href)}
+                className="px-3.5 py-2 text-sm font-semibold text-zinc-300 hover:text-amber-400 rounded-lg hover:bg-zinc-800/50 transition-colors cursor-pointer"
+              >
+                {link.label}
+              </a>
+            ))}
           </nav>
 
           {/* Right Action CTAs */}
           <div className="hidden md:flex items-center gap-2.5">
+            {/* Naver TalkTalk Bizform CTA */}
+            <a
+              href={BRAND_INFO.naverBizFormUrl || 'https://talk.naver.com/profile/wo2piug/form/1'}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-[#03C75A] hover:bg-[#02b351] text-white shadow-sm hover:shadow transition-all duration-200 cursor-pointer active:scale-95"
+            >
+              <svg viewBox="0 0 24 24" fill="currentColor" className="w-3.5 h-3.5" aria-hidden="true">
+                <path d="M16.273 12.845 7.376 0H0v24h7.726V11.155L16.624 24H24V0h-7.727v12.845z" />
+              </svg>
+              <span>톡톡 비즈폼</span>
+            </a>
+
             {/* Kakao Talk CTA */}
             <a
               href={BRAND_INFO.kakaoChatUrl}
@@ -100,7 +99,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-[#FEE500] hover:bg-[#FDD835] text-[#371D1E] shadow-sm hover:shadow transition-all duration-200 cursor-pointer active:scale-95"
             >
               <MessageCircle className="w-4 h-4 fill-current" />
-              <span>카톡 1:1 상담</span>
+              <span>카톡 상담</span>
             </a>
 
             {/* Direct Phone Call */}
@@ -111,15 +110,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               <Phone className="w-3.5 h-3.5 text-amber-400" />
               <span>{BRAND_INFO.phone}</span>
             </a>
-
-            {/* Free Quote Consultation Modal Trigger */}
-            <button
-              onClick={onOpenConsultation}
-              className="inline-flex items-center gap-1 px-4 py-2 rounded-xl text-xs font-bold bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white shadow-lg shadow-amber-500/25 hover:shadow-xl transition-all duration-200 cursor-pointer active:scale-95"
-            >
-              <span>무료 방문견적</span>
-              <ChevronRight className="w-3.5 h-3.5" />
-            </button>
           </div>
 
           {/* Mobile Menu Button */}
@@ -166,52 +156,38 @@ export const Navbar: React.FC<NavbarProps> = ({
             </div>
 
             <div className="py-4 space-y-1">
-              {navLinks.map((link) =>
-                link.isAction ? (
-                  <button
-                    key={link.label}
-                    type="button"
-                    onClick={() => {
-                      setIsMobileMenuOpen(false);
-                      link.action?.();
-                    }}
-                    className="w-full flex items-center justify-between px-3.5 py-3 rounded-xl text-base font-bold text-amber-400 hover:bg-amber-500/10 transition-colors text-left cursor-pointer"
-                  >
-                    <span className="flex items-center gap-2">
-                      <ShieldCheck className="w-4 h-4 text-amber-400" />
-                      {link.label}
-                    </span>
-                    <ChevronRight className="w-4 h-4 text-amber-400/70" />
-                  </button>
-                ) : (
-                  <a
-                    key={link.label}
-                    href={link.href}
-                    onClick={(e) => {
-                      setIsMobileMenuOpen(false);
-                      handleNavClick(e, link.href);
-                    }}
-                    className="flex items-center justify-between px-3.5 py-3 rounded-xl text-base font-semibold text-zinc-200 hover:bg-zinc-800/80 hover:text-amber-400 transition-colors cursor-pointer"
-                  >
-                    <span>{link.label}</span>
-                    <ChevronRight className="w-4 h-4 text-zinc-500" />
-                  </a>
-                )
-              )}
+              {navLinks.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  onClick={(e) => {
+                    setIsMobileMenuOpen(false);
+                    handleNavClick(e, link.href);
+                  }}
+                  className="flex items-center justify-between px-3.5 py-3 rounded-xl text-base font-semibold text-zinc-200 hover:bg-zinc-800/80 hover:text-amber-400 transition-colors cursor-pointer"
+                >
+                  <span>{link.label}</span>
+                  <ChevronRight className="w-4 h-4 text-zinc-500" />
+                </a>
+              ))}
             </div>
 
             <div className="pt-4 border-t border-zinc-800 space-y-2.5">
-              <button
-                onClick={() => {
-                  setIsMobileMenuOpen(false);
-                  onOpenConsultation();
-                }}
-                className="w-full py-3.5 px-4 rounded-xl text-sm font-bold bg-gradient-to-r from-amber-500 to-orange-500 text-white flex items-center justify-center gap-2 shadow-lg shadow-amber-500/25 cursor-pointer"
+              {/* Naver Bizform Button */}
+              <a
+                href={BRAND_INFO.naverBizFormUrl || 'https://talk.naver.com/profile/wo2piug/form/1'}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="w-full py-3.5 px-4 rounded-xl text-sm font-bold bg-[#03C75A] text-white flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 cursor-pointer"
               >
-                <ShieldCheck className="w-4 h-4" />
-                <span>무료 방문 실측 & 견적 신청</span>
-              </button>
+                <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4" aria-hidden="true">
+                  <path d="M16.273 12.845 7.376 0H0v24h7.726V11.155L16.624 24H24V0h-7.727v12.845z" />
+                </svg>
+                <span>네이버 톡톡 비즈폼 바로 작성</span>
+              </a>
 
+              {/* KakaoTalk 1:1 Chat */}
               <a
                 href={BRAND_INFO.kakaoChatUrl}
                 target="_blank"
@@ -221,6 +197,16 @@ export const Navbar: React.FC<NavbarProps> = ({
               >
                 <MessageCircle className="w-4 h-4 fill-current" />
                 <span>카카오톡 1:1 실시간 상담</span>
+              </a>
+
+              {/* Phone Call Button */}
+              <a
+                href={`tel:${BRAND_INFO.phone}`}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="w-full py-3.5 px-4 rounded-xl text-sm font-bold bg-zinc-900 border border-zinc-700 text-white flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <Phone className="w-4 h-4 text-amber-400" />
+                <span>전화 상담 ({BRAND_INFO.phone})</span>
               </a>
             </div>
           </div>

@@ -156,14 +156,18 @@ export const HeroSlider: React.FC<HeroSliderProps> = ({
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 pt-2">
-              <button
-                onClick={onOpenConsultation}
-                className="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl text-base font-bold bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white shadow-xl shadow-amber-500/25 hover:shadow-2xl transition-all duration-200 cursor-pointer active:scale-98"
+              <a
+                href={BRAND_INFO.naverBizFormUrl || 'https://talk.naver.com/profile/wo2piug/form/1'}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2.5 px-6 py-4 rounded-xl text-base font-bold bg-[#03C75A] hover:bg-[#02b351] text-white shadow-xl shadow-emerald-500/25 hover:shadow-2xl transition-all duration-200 cursor-pointer active:scale-98"
               >
-                <ShieldCheck className="w-5 h-5" />
-                <span>무료 방문 실측 & 견적 신청</span>
+                <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 shrink-0" aria-hidden="true">
+                  <path d="M16.273 12.845 7.376 0H0v24h7.726V11.155L16.624 24H24V0h-7.727v12.845z" />
+                </svg>
+                <span>네이버 톡톡 비즈폼 간편견적</span>
                 <ChevronRight className="w-4 h-4" />
-              </button>
+              </a>
 
               <button
                 onClick={onOpenEstimator}
